@@ -1,0 +1,17 @@
+<launch>
+<!-- Launch 2 Arduino boards -->
+
+    <node
+        pkg="rosserial_arduino"
+        type="serial_node.py"
+        name="arduino1"
+        args="/dev/ttyACM0"
+    ></node>
+
+    <node
+        pkg="rosserial_arduino"
+        type="serial_node.py"
+        name="arduino2"
+        args="/dev/ttyACM1"
+    ></node>
+</launch>
