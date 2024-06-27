@@ -1,0 +1,9 @@
+<!-- tf_publisher.launch -->
+<launch>
+
+  <!-- Static Transform Publisher -->
+  <node pkg="tf2_ros" type="static_transform_publisher" name="base_footprint_to_odom" args="0 0 0 0 0 0 odom base_footprint" />
+
+
+</launch>
+

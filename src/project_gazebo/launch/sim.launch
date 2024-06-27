@@ -1,0 +1,29 @@
+<launch>
+    <!-- Declare any launch arguments here -->
+    <arg name="robot_type" default="omni" doc="Type of robot to visualize (Available options: omni, diff)" />
+
+    <!-- Include launch files for ROS nodes -->
+    <!-- Launch the Gazebo simulator -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find project_gazebo)/worlds/first_world.world"/>
+    </include>
+
+    <!-- Define the robot_description parameter using xacro -->
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find xacro)/xacro $(find project_gazebo)/urdf/robot.xacro robot_type:=$(arg robot_type)'" />
+
+    <!-- Spawn the robot model in Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model my_robot -param robot_description" respawn="false" output="screen" />
+
+
+    <!-- Node for publishing robot model -->
+    <node name="robot_state_publisher_node" output="screen" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="use_sim_time" value="true"/>
+        <!-- Add any other parameters if needed -->
+    </node>
+
+    <!-- Node for rviz -->
+    <node pkg="rviz" type="rviz" name="rviz_node" output="log">
+        <param name="config" value="$(find project_gazebo)/rviz/sim.rviz"/>
+    </node>
+</launch>
+

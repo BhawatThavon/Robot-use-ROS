@@ -1,0 +1,29 @@
+<launch>
+    <!-- group ns="robot" -->
+    <!-- Launch the Gazebo simulator -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find project_gazebo)/worlds/first_world.world"/>
+    </include>
+
+    <!-- Load the URDF model into Gazebo -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find rrt_exploration_tutorials)/launch/includes/urdf/shipbot_gazebo.urdf.xacro"/>
+
+    <!-- Spawn the robot model -->
+    <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model my_robot -param robot_description" respawn="false" output="screen" />
+
+    <!-- Launch RViz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find project_gazebo)/project_gazebo/rviz/rplidar.rviz"/>
+
+    <!-- Publish TF -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+        <param name="scale_linear" value="0.5"/> <!-- Set linear speed scale -->
+        <param name="scale_angular" value="1.0"/> <!-- Set angular speed scale -->
+    </node>
+
+    <!-- Launch RPLIDAR node -->
+    <!-- include file="/catkin_ws/src/rplidar_ros/launch/rplidar_s2e.launch"/ -->
+    <!-- /group -->
+</launch>
+

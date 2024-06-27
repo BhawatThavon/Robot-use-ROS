@@ -1,0 +1,8 @@
+prefix=/home/bhawat/project/install
+
+Name: project_gazebo
+Description: Description of project_gazebo
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+
+	<node pkg="rviz" type="rviz" name="rviz" args="-d $(find slam)/launch/nav.rviz"/>
+	<node pkg="map_server" type="map_server" name="map_server" args="$(find project_navigation)/maps/7floor3.yaml" respawn="true" />
+
+	<include file="$(find slam)/launch/urdf.launch" />
+
+        <include file="$(find rplidar_ros)/launch/rplidar_s2e.launch"/>
+
+	<include file="$(find slam)/launch/run_move_base.launch" />
+	<include file="$(find slam)/launch/run_amcl.launch" />
+
+</launch>

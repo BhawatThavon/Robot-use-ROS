@@ -1,0 +1,10 @@
+<launch>
+    <!-- Launch your robot model and any necessary controllers here -->
+    
+    <!-- Launch the teleop_twist_keyboard node -->
+    <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_twist_keyboard" output="screen">
+        <!-- Set the topic where the teleop node should publish velocity commands -->
+        <remap from="/cmd_vel" to="/shipbot_1/cmd_vel"/> <!-- Adjust "/shipbot_1/cmd_vel" to your robot's specific cmd_vel topic -->
+    </node>
+</launch>
+

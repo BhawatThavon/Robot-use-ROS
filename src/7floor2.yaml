@@ -1,0 +1,18 @@
+image: /home/bhawat/Desktop/map/7floor2.pgm
+resolution: 0.050000
+origin: [-51.224998, -51.224998, 0.000000]
+negate: 0
+occupied_thresh: 0.65
+free_thresh: 0.196
+metadata:
+  map_load_time: "2024-02-12T14:30:00"
+  resolution: 0.050000
+  width: 200
+  height: 200
+  origin: [-51.224998, -51.224998, 0.000000]
+  negate: 0
+  occupied_thresh: 0.65
+  free_thresh: 0.196
+  frame_id: map
+
+

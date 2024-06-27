@@ -1,0 +1,15 @@
+<!-- auto_nav.launch -->
+<launch>
+    <!-- Launch the navigation stack -->
+    <include file="$(find slam)/launch/nav.launch" />
+
+    <!-- Wait for a few seconds to ensure navigation stack is ready -->
+    <node pkg="rospy_tutorials" type="add_two_ints_server" name="dummy_node" args="5" />
+
+    <!-- Send the goal -->
+    <node pkg="slam" type="send_navigation_goal.py" name="send_goal" output="screen" />
+    
+    <!--listener-->
+    <node pkg="slam" type="robot_position_listener.py" name="listener" output="screen" />
+</launch>
+

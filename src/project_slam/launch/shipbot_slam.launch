@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+    <!--arg name="namespace" default="shipbot"/-->
+
+    <!-- Launch rplidar_s2e -->
+    <include file="$(find rplidar_ros)/launch/rplidar_s2e.launch">
+     <!--arg name="namespace" value="$(arg namespace)"/-->
+    </include>
+
+    <!-- Launch hector_slam tutorial -->
+    <include file="$(find hector_slam_launch)/launch/tutorial.launch">
+     <!--arg name="namespace" value="$(arg namespace)"/-->
+    </include>
+
+   <!-- rviz -->
+     <!--node pkg="rviz" type="rviz" name="rviz" required="true"
+           args="-d $(find project_slam)/rviz/hector.rviz"/-->
+</launch>
+

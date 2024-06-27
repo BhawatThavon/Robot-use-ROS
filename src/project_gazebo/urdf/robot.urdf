@@ -1,0 +1,74 @@
+<robot name="my_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Base Link -->
+  <link name="base_link">
+    <!-- Define the visual and collision properties of the base link -->
+    <visual>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  <!-- RPLIDAR Link and Joint -->
+  <link name="rplidar_link">
+    <!-- Define the visual and collision properties of the RPLIDAR link -->
+    <visual>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/> <!-- Example dimensions -->
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <cylinder radius="0.05" length="0.1"/> <!-- Example dimensions -->
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="rplidar_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="rplidar_link"/>
+    <origin xyz="0 0 0.1"/> <!-- Example position relative to base_link -->
+  </joint>
+  
+
+  <!-- Define Odom Frame -->
+  <link name="odom">
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/> <!-- Example dimensions -->
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Connect Odom Frame to Base Link -->
+  <joint name="odom_base_link_joint" type="fixed">
+    <parent link="odom"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0"/> <!-- Example position relative to odom -->
+  </joint>
+
+
+  <!-- Define Map Frame -->
+  <link name="map">
+    <visual>
+      <geometry>
+        <sphere radius="0.05"/> <!-- Example dimensions -->
+      </geometry>
+    </visual>
+  </link>
+
+  <!-- Connect Map Frame to Odom Frame -->
+  <joint name="map_odom_joint" type="fixed">
+    <parent link="map"/>
+    <child link="odom"/>
+    <origin xyz="0 0 0"/> <!-- Example position relative to map -->
+  </joint>
+
+</robot>
+

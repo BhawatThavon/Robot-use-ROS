@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="gui" default="true" />
+  <arg name="model" default="$(find project_gazebo)/urdf/robot.urdf.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+  <param name="use_gui" value="$(arg gui)"/>
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+  	<param name="publish_frequency" value="5" />
+  </node>
+  
+    <node pkg="tf" type="static_transform_publisher" name="map_2_odom" args="0 0 0 0 0 0 map odom 300"/>
+  <node pkg="tf" type="static_transform_publisher" name="odom_2_base_footprint" args="0 0 0 0 0 0 odom base_footprint 300"/>
+  <node pkg="tf" type="static_transform_publisher" name="base_footprint_2_base_link" args="0 0 0.075 0 0 0 base_footprint base_link 300"/>
+  <!--node pkg="tf" type="static_transform_publisher" name="odom_2_base_link" args="0 0 0.075 0 0 0 odom base_link 300"/-->
+  <node pkg="tf" type="static_transform_publisher" name="base_link_2_base_second_link" args="0 0 0.275 0 0 0 base_link base_second_link 300"/> 
+  <node pkg="tf" type="static_transform_publisher" name="base_second_link_2_laser" args="0.2 0 0.028 3.14159 0 0 base_second_link laser 300"/>
+
+  <!--node pkg="tf" type="static_transform_publisher" name="model_tf" args="0 0 0.04 0 0 0 base_footprint base_link 300" /-->
+
+</launch>

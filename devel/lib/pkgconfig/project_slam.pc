@@ -1,0 +1,8 @@
+prefix=/home/bhawat/project/devel
+
+Name: project_slam
+Description: Description of project_slam
+Version: 0.0.1
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

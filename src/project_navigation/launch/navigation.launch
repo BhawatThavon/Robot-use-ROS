@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<launch>
+    <!-- Load the map -->
+    <arg name="map_file" default="$(find project_navigation)/maps/7floor2.yaml"/>
+    <arg name="model" default="$(find project_gazebo)/urdf/robot.urdf.xacro"/>
+    <!--param name="map_file" value="$(arg map_file)"/-->
+
+
+    <rosparam file="$(find project_control)/config/controllers.yaml" command="load"/>
+    <rosparam file="$(find project_control)/config/joint_limits.yaml" command="load"/>
+
+    <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)" />
+
+    <node name="robot_hardware_interface" pkg="mobile_robot_autonomous_navigation" type="mobile_robot_hardware_interface" output="screen">
+    <remap from="/robot/mobile_base_controller/cmd_vel" to="/cmd_vel"/>
+  </node>
+
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" >
+  </node>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find project_navigation)/rviz/config.rviz"/>
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+        args="
+            /robot/joints_update
+            /robot/mobile_base_controller" >
+  </node>
+
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" >
+  </node>
+
+    <!-- Launch AMCL for localization -->
+    <include file="$(find rplidar_ros)/launch/rplidar_s2e.launch" />
+    <include file="$(find project_navigation)/launch/amcl.launch"/>
+    <include file="$(find project_navigation)/launch/move_base.launch"/>
+   
+    <!-- Launch move_base for navigation -->
+    <!--include file="$(find rrt_exploration_tutorials)/launch/includes/move_base2.launch"/-->
+
+    <!-- Autonomous Explorer Node -->
+    <!--include file="$(find rrt_exploration)/launch/RRT.launch"/-->
+</launch>
+

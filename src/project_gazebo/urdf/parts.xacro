@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="robot_base" params="parent child xyz rpy">
+
+    <link name="base_link">
+      <visual>
+        <geometry>
+          <box size="0.25 0.15 0.005" />
+        </geometry>
+        <material name="green">
+          <color rgba="0.0 1 0.0 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.25 0.15 0.005" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5" />
+        <inertia ixx="0.015" ixy="0" ixz="0" iyy="0.0375" iyz="0.0" izz="0.0275" />
+      </inertial>
+    </link>
+
+    <joint name="base_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="base_footprint" />
+      <child link="base_link" />
+    </joint>
+
+  </xacro:macro>
+
+ <xacro:macro name="lidar" params="parent child xyz rpy">
+
+    <link name="rplidar_link">
+      <visual>
+        <geometry>
+          <box size="0.10 0.075 0.060" />
+        </geometry>
+        <material name="blue">
+          <color rgba="0.0 0.0 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.10 0.075 0.060" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.01" />
+        <inertia ixx="0.015" ixy="0" ixz="0" iyy="0.0375" iyz="0.0" izz="0.0275" />
+      </inertial>
+    </link>
+
+    <joint name="rplidar_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="base_link" />
+      <child link="rplidar_link" />
+    </joint>
+
+  </xacro:macro>
+
+  <xacro:macro name="robot_motor" params="parent child xyz rpy">
+
+    <link name="motor_link">
+      <visual>
+        <geometry>
+          <box size="0.04 0.07 0.045" />
+        </geometry>
+        <material name="blue">
+          <color rgba="0.0 0.0 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.04 0.07 0.045" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.2" />
+        <inertia ixx="0.015" ixy="0" ixz="0" iyy="0.0375" iyz="0.0" izz="0.0275" />
+      </inertial>
+    </link>
+
+    <joint name="motor_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="base_link" />
+      <child link="motor_link" />
+    </joint>
+
+  </xacro:macro>
+
+  <xacro:macro name="robot_pillar" params="parent child xyz rpy">
+
+    <link name="pillar_link">
+      <visual>
+        <geometry>
+          <cylinder radius="0.005" length="0.06" />
+        </geometry>
+        <material name="red">
+          <color rgba="1 0.0 0.0 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.005" length="0.06" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.1" />
+        <inertia ixx="0.015" ixy="0" ixz="0" iyy="0.0375" iyz="0.0" izz="0.0275" />
+      </inertial>
+    </link>
+
+    <joint name="pillar_joint" type="fixed">
+      <origin xyz="${xyz}" rpy="${rpy}" />
+      <parent link="base_link" />
+      <child link="pillar_link" />
+    </joint>
+
+  </xacro:macro>
+
+  <xacro:macro name="wheel" params="parent child xyz rpy robot_type">
+
+    <link name="wheel_link">
+      <visual>
+        <geometry>
+          <cylinder radius="0.075" length="0.08"/>
+        </geometry>
+        <material name="blue">
+          <color rgba="0.0 0.0 1 1" />
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.075" length="0.08"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.5" />
+        <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0.0" izz="0.05" />
+      </inertial>
+    </link>
+
+    <xacro:if value="${robot_type == 'omni'}">
+      <joint name="wheel_joint" type="fixed">
+        <axis xyz="0.0 0.0 1"/>
+        <origin xyz="${xyz}" rpy="${rpy}" />
+        <parent link="base_link" />
+        <child link="wheel_link" />
+      </joint>    
+    </xacro:if>
+
+    <xacro:if value="${robot_type == 'diff'}">
+      <joint name="wheel_joint" type="continuous">
+        <axis xyz="0.0 0.0 1"/>
+        <origin xyz="${xyz}" rpy="${rpy}" />
+        <parent link="base_link" />
+        <child link="wheel_link" />
+      </joint>    
+    </xacro:if>
+
+  </xacro:macro>
+</robot>

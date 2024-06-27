@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Define materials -->
+  <material name="grey">
+    <color rgba="0.5 0.5 0.5 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  
+  <!-- Define base_link -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.5 0.5 0.2"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  
+  <!-- Define wheel -->
+  <xacro:macro name="wheel" params="name">
+    <link name="${name}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.05" radius="0.05"/>
+        </geometry>
+        <material name="white"/>
+      </visual>
+    </link>
+    <joint name="${name}_joint" type="continuous">
+      <origin xyz="0 0 0.025"/>
+      <parent link="base_link"/>
+      <child link="${name}_link"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+  </xacro:macro>
+  
+  <!-- Define mecanum wheels -->
+  <xacro:wheel name="front_left_wheel"/>
+  <xacro:wheel name="front_right_wheel"/>
+  <xacro:wheel name="rear_left_wheel"/>
+  <xacro:wheel name="rear_right_wheel"/>
+  
+  <!-- Connect wheels with motors -->
+  <transmission name="front_left_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_left_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="front_left_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>8</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="front_right_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="front_right_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="front_right_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>8</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="rear_left_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_left_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rear_left_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>8</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+  <transmission name="rear_right_wheel_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="rear_right_wheel_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="rear_right_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>8</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <!-- Similar for other wheels -->
+  
+  <!-- Define second base -->
+  <link name="second_base">
+    <visual>
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.2" radius="0.2"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+  </link>
+  
+  <!-- Connect second base with lidar -->
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0 0 0.1" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="second_base"/>
+  </joint>
+  
+  <!-- Define lidar -->
+  <link name="lidar">
+    <visual>
+      <origin xyz="0 0 0.1" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.05"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+  </link>
+  
+  <!-- Connect lidar -->
+  <joint name="lidar_mount" type="fixed">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="second_base"/>
+    <child link="lidar"/>
+  </joint>
+
+</robot>
+
